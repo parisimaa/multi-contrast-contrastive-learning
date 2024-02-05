@@ -16,7 +16,7 @@ import nibabel as nib
 from sklearn.decomposition import PCA
 import argparse
 
-sys.path.append('./')
+sys.path.append('/content/drive/Othercomputers/My Mac/Documents/GitHub/multi-contrast-contrastive-learning/')
   
 from utils.utils import myCrop3D
 from utils.utils import  performDenoising
