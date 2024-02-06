@@ -15,6 +15,7 @@ import sys, numpy as np
 import nibabel as nib
 from sklearn.decomposition import PCA
 import argparse
+import numpy as np
 
 sys.path.append('/content/drive/Othercomputers/My Mac/Documents/GitHub/multi-contrast-contrastive-learning/')
   
@@ -58,6 +59,7 @@ def generate_constraint_maps_batch(parse_cfg):
         try:
             save_dir = os.path.join(save_base_dir, subName)
             img   = load_unl_brats_img(datadir, subName, opShape)
+            print(len(img))
             print('Generating parametric cluster for K=', num_param_clusters)
             kp = generate_parametric_clusters(img, num_cluster=num_param_clusters, random_state=0) 
             pathlib.Path(save_dir).mkdir(parents=True, exist_ok=True)
@@ -78,7 +80,8 @@ def generate_parametric_clusters(parameter_volume, num_cluster=10, random_state=
     Input: Parameter volume (4D) HxWxDxT or (3D) HxWxT where T is the contrast dimension
     Output: Parameter constraint map
     ''' 
-    assert len(parameter_volume) == 4
+    assert len(parameter_volume.shape) == 4
+    
     
     xDim, yDim, zDim, tDim = parameter_volume.shape   
 
@@ -113,6 +116,7 @@ def load_unl_brats_img(datadir, subName, opShape):
     sub_img = []
     for suffix in data_suffix:
         temp = nib.load(datadir + subName + '/' + subName + suffix)
+        
         temp = np.rot90(temp.get_fdata(),-1)
         temp = myCrop3D(temp, opShape)
         temp = normalize_img(temp)
