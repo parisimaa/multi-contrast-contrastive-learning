@@ -65,8 +65,10 @@ def generate_constraint_maps_batch(parse_cfg):
             pathlib.Path(save_dir).mkdir(parents=True, exist_ok=True)
             temp = {}
             temp['param'] = kp
+            
             save_str = '/Constraint_map_' + str(num_param_clusters) + '.mat'
-            sio.savemat(os.path.join(save_dir,save_str), temp)
+
+            sio.savemat(save_dir + save_str, temp)
         except:
             print('An exception occured here')
 
